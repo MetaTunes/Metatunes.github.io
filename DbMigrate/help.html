@@ -10,7 +10,7 @@
   position: fixed;
   z-index: 1;
   left: 0;
-  background-color: #111;
+  background-color: blue;
   padding-top: 20px;
   float: left;
   overflow-y: scroll;
@@ -21,12 +21,17 @@
 .sidenav a {
 	padding: 6px 8px 6px 16px;
   text-decoration: none;
-  color: #818181;
+  color: white;
   display: block;
 }
 
 .sidenav a:hover {
 	color: #f1f1f1;
+}
+
+.sidenav ul {
+  margin-left: -30px;
+  list-style-type: none;
 }
 
 .main {
@@ -43,7 +48,7 @@
 </head>
 <body>
 <div class="sidenav">
-	<ul class='uk-nav uk-nav-default'><li><a href='#introduction'>Introduction</a></li><li><a href='#concept'>Concept</a></li><li><a href='#uses'>Uses</a></li><li><a href='#design'>Design</a></li><li><a href='#health-warnings'>Health warnings</a></li><li><a href='#installation'>Installation</a></li><li><a href='#dependencies'>&nbsp;&nbsp;Dependencies</a></li><li><a href='#upgrading'>Upgrading</a></li><li><a href='#uninstalling'>Uninstalling</a></li><li><a href='#overview'>Overview</a></li><li><a href='#using-the-module'>Using the module</a></li><li><a href='#documenting-the-migration'>&nbsp;&nbsp;Documenting the migration</a></li><li><a href='#snippets'>&nbsp;&nbsp;Snippets</a></li><li><a href='#populating-the-migration-page'>&nbsp;&nbsp;Populating the migration page</a></li><li><a href='#exporting-the-migration'>&nbsp;&nbsp;Exporting the migration</a></li><li><a href='#installing-the-migration'>&nbsp;&nbsp;Installing the migration</a></li><li><a href='#database-comparisons'>&nbsp;&nbsp;Database comparisons</a></li><li><a href='#creating-a-migration-from-a-comparison'>&nbsp;&nbsp;&nbsp;&nbsp;Creating a migration from a comparison</a></li><li><a href='#hooks'>&nbsp;&nbsp;Hooks</a></li><li><a href='#available-hooks'>&nbsp;&nbsp;&nbsp;&nbsp;Available hooks</a></li><li><a href='#placement'>&nbsp;&nbsp;&nbsp;&nbsp;Placement</a></li><li><a href='#usage'>&nbsp;&nbsp;&nbsp;&nbsp;Usage</a></li><li><a href='#troubleshooting-technical-notes'>Troubleshooting / Technical notes</a></li><li><a href='#guide-to-the-files'>&nbsp;&nbsp;&nbsp;&nbsp;Guide to the files</a></li><li><a href='#issues-with-page-migrations'>&nbsp;&nbsp;&nbsp;&nbsp;Issues with page migrations</a></li><li><a href='#partial-unsuccessful-migrations'>&nbsp;&nbsp;&nbsp;&nbsp;Partial / Unsuccessful migrations</a></li><li><a href='#field-types'>&nbsp;&nbsp;&nbsp;&nbsp;Field types</a></li><li><a href='#subsequent-installations'>&nbsp;&nbsp;&nbsp;&nbsp;Subsequent installations</a></li><li><a href='#rescue-mode'>&nbsp;&nbsp;&nbsp;&nbsp;Rescue mode</a></li><li><a href='#template-field-flags'>&nbsp;&nbsp;&nbsp;&nbsp;Template/field flags</a></li></ul></div>
+	<ul class='uk-nav uk-nav-default'><li><a href='#introduction'>Introduction</a></li><li><a href='#concept'>Concept</a></li><li><a href='#uses'>Uses</a></li><li><a href='#design'>Design</a></li><li><a href='#health-warnings'>Health warnings</a></li><li><a href='#installation'>Installation</a></li><li><a href='#dependencies'>&nbsp;&nbsp;Dependencies</a></li><li><a href='#upgrading'>Upgrading</a></li><li><a href='#uninstalling'>Uninstalling</a></li><li><a href='#overview'>Overview</a></li><li><a href='#using-the-module'>Using the module</a></li><li><a href='#documenting-the-migration'>&nbsp;&nbsp;Documenting the migration</a></li><li><a href='#snippets'>&nbsp;&nbsp;Snippets</a></li><li><a href='#populating-the-migration-page'>&nbsp;&nbsp;Populating the migration page</a></li><li><a href='#exporting-the-migration'>&nbsp;&nbsp;Exporting the migration</a></li><li><a href='#installing-the-migration'>&nbsp;&nbsp;Installing the migration</a></li><li><a href='#database-comparisons'>&nbsp;&nbsp;Database comparisons</a></li><li><a href='#creating-a-migration-from-a-comparison'>&nbsp;&nbsp;&nbsp;&nbsp;Creating a migration from a comparison</a></li><li><a href='#hooks'>&nbsp;&nbsp;Hooks</a></li><li><a href='#available-hooks'>&nbsp;&nbsp;&nbsp;&nbsp;Available hooks</a></li><li><a href='#placement'>&nbsp;&nbsp;&nbsp;&nbsp;Placement</a></li><li><a href='#usage'>&nbsp;&nbsp;&nbsp;&nbsp;Usage</a></li><li><a href='#troubleshooting-technical-notes'>Troubleshooting / Technical notes</a></li><li><a href='#guide-to-the-files'>&nbsp;&nbsp;Guide to the files</a></li><li><a href='#issues-with-page-migrations'>&nbsp;&nbsp;Issues with page migrations</a></li><li><a href='#partial-unsuccessful-migrations'>&nbsp;&nbsp;Partial / Unsuccessful migrations</a></li><li><a href='#field-types'>&nbsp;&nbsp;Field types</a></li><li><a href='#subsequent-installations'>&nbsp;&nbsp;Subsequent installations</a></li><li><a href='#rescue-mode'>&nbsp;&nbsp;Rescue mode</a></li><li><a href='#template-field-flags'>&nbsp;&nbsp;Template/field flags</a></li></ul></div>
 <div class="main" edit="dbMigrateAdditionalDetails">
 <h1>DB Migrations module</h1>
 
@@ -391,7 +396,7 @@ $this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
 
 <a name='troubleshooting-technical-notes' href='#'></a><h2>Troubleshooting / Technical notes</h2>
 
-<a name='guide-to-the-files' href='#'></a><h4>Guide to the files</h4>
+<a name='guide-to-the-files' href='#'></a><h3>Guide to the files</h3>
 
 <p>The following files are created:</p>
 
@@ -416,7 +421,7 @@ $this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
 	<li>Comparison files (template/DbMigrate/comparisons) hold all details of comparisons in directories named after the comparison name. Theses directories have a 'new' directory with a similar structure to migrations.</li>
 </ol>
 
-<a name='issues-with-page-migrations' href='#'></a><h4>Issues with page migrations</h4>
+<a name='issues-with-page-migrations' href='#'></a><h3>Issues with page migrations</h3>
 
 <p>Issues may arise with page migration which are not possible to foresee fully. This is particularly the case if the user migrates pages with multiple complex field types and custom processing. The module was designed for migrating developments, not for mass updating of user pages. It is therefore assumed that any pages being migrated are of a ‘site-settings’ nature, not user pages. That said, it is possible to use the module more generally (e.g. in ‘rescue’ mode) but test carefully first. In particular, the host PW application may make use of page hooks. All page actions in the module allow hooks to run. To enable users to modify this behaviour, session variables are set for the duration of the following methods:</p>
 
@@ -427,7 +432,7 @@ $this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
 
 <p>These can then be referenced in the user's application code as required.</p>
 
-<a name='partial-unsuccessful-migrations' href='#'></a><h4>Partial / Unsuccessful migrations</h4>
+<a name='partial-unsuccessful-migrations' href='#'></a><h3>Partial / Unsuccessful migrations</h3>
 
 <p>In some circumstances, migrations may not complete properly. This will result in error messages when the migration is installed. Some typical examples and possible solutions are set out below. Occasionally, re-clicking 'install' or 'uninstall' may resolve this. Note that you cannot change a migration definition in the target environment, so any changes need to be done in the source environment and re-exported (and installed after uninstalling the previous version).</p>
 
@@ -441,7 +446,7 @@ $this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
 
 <p>Use the preview button to see what changes have not been fully implemented. You can also inspect and compare the json files to identify the issue (your IDE is probably the best place to do this). For example, compare templates/…/new/data.json (the required state) with assets/cache/dbMigrations/new-data.json (the current state). (Similarly, for uninstallation problems, compare ../old/data.json with assets/cache/dbMigrations/old-data.json).</p>
 
-<a name='field-types' href='#'></a><h4>Field types</h4>
+<a name='field-types' href='#'></a><h3>Field types</h3>
 
 <p>The module handles (I think) the following field types:</p>
 
@@ -470,7 +475,7 @@ $this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
 	</li>
 </ol>
 
-<a name='subsequent-installations' href='#'></a><h4>Subsequent installations</h4>
+<a name='subsequent-installations' href='#'></a><h3>Subsequent installations</h3>
 
 <p>After an initial export from a source and installation in a target, the question arises as to how to deal with revised or additional migrations. If a migration is revised in the source, then it can be installed in the target once the previous version has been uninstalled. New migrations exported from the source are handled in the same way as initial migrations.</p>
 
@@ -485,11 +490,11 @@ $this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
 
 <p>It is also possible, in theory (not advised, but maybe necessary if the development environment is inaccessible) to make changes directly to the live database and 'export' them for installation on the development system. These should be locked after installing them. Database naming is strongly recommended if you use this strategy.</p>
 
-<a name='rescue-mode' href='#'></a><h4>Rescue mode</h4>
+<a name='rescue-mode' href='#'></a><h3>Rescue mode</h3>
 
 <p>An additional use of the module is ‘rescue’ mode. If a number of erroneous changes have occurred to a live database which need to be reverted, then a suitable backup copy can be restored to the development environment (after backing up the dev database!), given a unique name, and the relevant migration exported for installation in the live environment. After successful installation, the development database can be restored to the development environment – the ‘rescue’ migration will then be loaded automatically as a (‘installable’ – i.e. non-editable or exportable) migration and can be installed if it makes sense to do so.</p>
 
-<a name='template-field-flags' href='#'></a><h4>Template/field flags</h4>
+<a name='template-field-flags' href='#'></a><h3>Template/field flags</h3>
 
 <p>Note that all dbMigrate templates and fields are designated as ‘system’ – i.e. the flags is set to 8. This means that they are hidden from the setup dropdown and cannot be used in the front end. To unset the flags it is necessary to first set the override, viz:</p>
 
