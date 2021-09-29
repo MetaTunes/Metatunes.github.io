@@ -41,7 +41,7 @@
 </head>
 <body>
 <div class="sidenav">
-	<ul class='uk-nav uk-nav-default'><li><a href='#introduction'>Introduction</a></li><li><a href='#concept'>Concept</a></li><li><a href='#uses'>Uses</a></li><li><a href='#design'>Design</a></li><li><a href='#health-warnings'>Health warnings</a></li><li><a href='#installation'>Installation</a></li><li><a href='#dependencies'>&nbsp;&nbsp;Dependencies</a></li><li><a href='#upgrading'>Upgrading</a></li><li><a href='#uninstalling'>Uninstalling</a></li><li><a href='#overview'>Overview</a></li><li><a href='#usage'>Usage</a></li><li><a href='#documenting-the-migration'>&nbsp;&nbsp;Documenting the migration</a></li><li><a href='#snippets'>&nbsp;&nbsp;Snippets</a></li><li><a href='#populating-the-migration-page'>&nbsp;&nbsp;Populating the migration page</a></li><li><a href='#exporting-the-migration'>&nbsp;&nbsp;Exporting the migration</a></li><li><a href='#installing-the-migration'>&nbsp;&nbsp;Installing the migration</a></li><li><a href='#database-comparisons'>&nbsp;&nbsp;Database comparisons</a></li><li><a href='#creating-a-migration-from-a-comparison'>&nbsp;&nbsp;&nbsp;&nbsp;Creating a migration from a comparison</a></li></ul></div>
+	<ul class='uk-nav uk-nav-default'><li><a href='#introduction'>Introduction</a></li><li><a href='#concept'>Concept</a></li><li><a href='#uses'>Uses</a></li><li><a href='#design'>Design</a></li><li><a href='#health-warnings'>Health warnings</a></li><li><a href='#installation'>Installation</a></li><li><a href='#dependencies'>&nbsp;&nbsp;Dependencies</a></li><li><a href='#upgrading'>Upgrading</a></li><li><a href='#uninstalling'>Uninstalling</a></li><li><a href='#overview'>Overview</a></li><li><a href='#usage'>&nbsp;&nbsp;&nbsp;&nbsp;Usage</a></li><li><a href='#documenting-the-migration'>&nbsp;&nbsp;Documenting the migration</a></li><li><a href='#snippets'>&nbsp;&nbsp;Snippets</a></li><li><a href='#populating-the-migration-page'>&nbsp;&nbsp;Populating the migration page</a></li><li><a href='#exporting-the-migration'>&nbsp;&nbsp;Exporting the migration</a></li><li><a href='#installing-the-migration'>&nbsp;&nbsp;Installing the migration</a></li><li><a href='#database-comparisons'>&nbsp;&nbsp;Database comparisons</a></li><li><a href='#creating-a-migration-from-a-comparison'>&nbsp;&nbsp;&nbsp;&nbsp;Creating a migration from a comparison</a></li><li><a href='#hooks'>&nbsp;&nbsp;Hooks</a></li><li><a href='#available-hooks'>&nbsp;&nbsp;&nbsp;&nbsp;Available hooks</a></li><li><a href='#placement'>&nbsp;&nbsp;&nbsp;&nbsp;Placement</a></li><li><a href='#troubleshooting-technical-notes'>Troubleshooting / Technical notes</a></li><li><a href='#guide-to-the-files'>&nbsp;&nbsp;&nbsp;&nbsp;Guide to the files</a></li><li><a href='#issues-with-page-migrations'>&nbsp;&nbsp;&nbsp;&nbsp;Issues with page migrations</a></li><li><a href='#partial-unsuccessful-migrations'>&nbsp;&nbsp;&nbsp;&nbsp;Partial / Unsuccessful migrations</a></li><li><a href='#field-types'>&nbsp;&nbsp;&nbsp;&nbsp;Field types</a></li><li><a href='#subsequent-installations'>&nbsp;&nbsp;&nbsp;&nbsp;Subsequent installations</a></li><li><a href='#rescue-mode'>&nbsp;&nbsp;&nbsp;&nbsp;Rescue mode</a></li><li><a href='#template-field-flags'>&nbsp;&nbsp;&nbsp;&nbsp;Template/field flags</a></li></ul></div>
 <div class="main" edit="dbMigrateAdditionalDetails">
 <h1>DB Migrations module</h1>
 
@@ -300,7 +300,201 @@
 	<li>then export the migration from the source environment and install it in the usual way.</li>
 </ul>
 
-<p>If you have selected the whole database for comparison, then rather than create a migration, you are probably better just to do a backup and restore</p></div>
+<p>If you have selected the whole database for comparison, then rather than create a migration, you are probably better just to do a backup and restore.</p>
+
+<p><em>Subsequent migrations</em>: Up until the point when migration created from a comparison has a /new/data.json file exported from the source system, it is considered to be ‘draft’ (signified by a meta(‘draft’) element). While in this draft state, it is replaced by any new draft migration created from the same comparison. After it is no longer draft, creating a draft migration from a comparison will result in a new draft migration, leaving the original in place. In this way, a comparison page can be left in place and used to create multiple migrations over time (provided, of course, that any new changes to the data are exported from the comparison page in the source database and sync’d to the target).</p>
+
+<a name='hooks' href='#'></a><h3>Hooks</h3>
+
+<a name='available-hooks' href='#'></a><h4>Available hooks</h4>
+
+<p>Many of the ProcessDbMigrate methods are hookable:</p>
+
+<ul>
+	<li>___execute() – Display the Database Migrations setup page</li>
+	<li>___newPage($template, $parent, $title, $values) – Create new migration or comparison (depending on $template)</li>
+	<li>___executeGetMigrations() – refreshes all migration pages</li>
+	<li>___exportData($migrationPage) – creates the .json files for a migration</li>
+	<li>___removeFiles($migrationPage, $oldOnly=false) – removes the .json files for a migration or comparison ($oldOnly=true will only remove the /old/ directory)</li>
+	<li>___installMigration($migrationPage) – installs a migration in the target</li>
+	<li>___uninstallMigration ($migrationPage) - uninstalls a migration in the target</li>
+	<li>___lockMigration($migrationPage, $migrationFolder) – locks a migration (in the source)</li>
+	<li>___unlockMigration($migrationPage, $migrationFolder) – unlocks a migration (in the source)</li>
+	<li>___previewDiffs($migrationPage, $comparisonType) – previews migration changes where $comparisonType is one of: export, install, uninstall, review</li>
+</ul>
+
+<a name='placement' href='#'></a><h4>Placement</h4>
+
+<p>You can place your hooks in site/ready.php. In this case you will need to check the name of the migration page before running – e.g.</p>
+
+<pre>
+wire()-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
+    $migrationPage = $event-&gt;arguments(0);
+    if ($migrationPage-&gt;name == 'my-migration') {
+        ///code to run
+    }
+});
+</pre>
+
+<p>and then you use $migrationPage to further reference the migration page. This approach keeps all your hooks together and you have to remember to sync the site/ready.php as well as your migration files.</p>
+
+<p>Alternatively (<strong>the recommended approach</strong>), you can place a file called ready.php in the site/template/DbMigrate/migrations/{my-migration}/ directory, in which case your script would be</p>
+
+<pre>
+$this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
+// code to run
+});</pre>
+
+<p>and you can use $this to reference the migration page. This approach keeps all your migration-related data &amp; code together and you only have to sync the migration folder. It also means that your migration-specific ready.php code will be displayed at the bottom of the migration page. Also, if you ‘remove migration files’ it will remove your custom code as well (usually you will only be doing this as preparation to delete the migration, so that is what you want). With the first approach, your hook will remain in site/ready.php.</p>
+
+<a name='usage' href='#'></a><h4>Usage</h4>
+
+<p>Of the available hooks, installMigration and uninstallMigration are likely to be the most useful. For example, a hook after ProcessDbMigrate::installMigration could be used to carry out database-wide changes following the amendment of the structure. Using the example given under ‘Snippets’ earlier, say you have changed an address field to split out the post code into a separate field. The migration definition will specify the new field and the changed template. The hook could then include the code to extract postcodes and place them in the new field. You could place code to undo this as a hook before ProcessDbMigrate::uninstallMigration, so that executing the uninstall exactly reverses the install.</p>
+
+<p>In some circumstances you may not wish the code in your hook to run if (for example) the installation was not completely successful. You can test the status of a migration as follows (<em>use $migrationPage = $event-&gt;arguments(0); instead of $this if your code is in site/ready.php</em>):</p>
+
+<ul>
+	<li>Test if $this-&gt;meta(‘installedStatus’)[‘status’] is ‘installed’ or ‘uninstalled’. This yields the installed status before the (un)installMigration method, regardless of whether the hook is before or after.</li>
+	<li>For ‘after’ hooks, update the status by calling $this-&gt;refresh() before testing the status to get the status after running the (un)installMigration method.</li>
+</ul>
+
+<p>Note that $this-&gt;meta(‘installedStatus’) is an array as follows:</p>
+
+<p>· 'status' =&gt; (string) one of <em>pending</em> (not yet exported or different from exported data), <em>exported</em>, <em>indeterminate</em> (not installed or uninstalled – usually means not yet installed and no ‘old’ files yet exist to provide uninstall data), <em>installed</em>, <em>uninstalled</em>, <em>superseded</em> (locked migration which would otherwise be shown as pending or indeterminate), <em>void</em> (installed and uninstalled),</p>
+
+<ul>
+	<li>'scopeChange' =&gt; <em>true</em> if the proposed migration and old/orig-new-data.json reference different database elements (so the ‘old’ definition would no longer be a suitable basis for an uninstall action)**,</li>
+	<li>‘scopeDiffs’ =&gt; the differences between the new and previous migration, where there is a scope change</li>
+	<li>'installed' =&gt; <em>true</em> if installedData and installedMigration are true,</li>
+	<li>'uninstalled' =&gt; <em>true</em> if uninstalledData and uninstalledMigration are true,</li>
+	<li>'installedData' =&gt; <em>true</em> if installedDataDiffs is empty,</li>
+	<li>'uninstalledData' =&gt; <em>true</em> if uninstalledDataDiffs is empty,</li>
+	<li>'installedDataDiffs' =&gt; (array) reportable* differences between the current state and the installation data (new/data.json),</li>
+	<li>'uninstalledDataDiffs' =&gt; (array) reportable* differences between the current state and the uninstallation data (old/data.json),</li>
+	<li>'installedMigration' =&gt; <em>true</em> if installedMigrationDiffs is empty,</li>
+	<li>'installedMigrationDiffs' =&gt; (array) reportable* differences between the current migration definition and the installation migration definition (new/migration.json),</li>
+	<li>'uninstalledMigration' =&gt; <em>true</em> if uninstalledMigrationDiffs is empty,</li>
+	<li>'uninstalledMigrationDiffs' =&gt; (array) reportable* differences between the current migration definition and the uninstallation migration definition (old/migration.json) – it will be empty if the migration has not yet been installed and so no ‘old’ files yet exist,</li>
+	<li>'uninstalledMigrationKey' =&gt; <em>true</em> if uninstalledMigrationKeyDiffs is empty,</li>
+	<li>'uninstalledMigrationKeyDiffs' =&gt; (array) any 'key' differences between the current and uninstallation migration definitions; 'key' differences are those which affect the database (migration items and 'restrict fields')</li>
+	<li>'reviewedDataDiffs' =&gt; (array) reportable* differences between the installation data (new/data.json) and the uninstallation data (old/data.json) – it will be empty if the migration has not yet been installed and so no ‘old’ files yet exist,</li>
+	<li>‘timestamp’ =&gt; just that – the time the installedStatus meta was created</li>
+</ul>
+
+<p>*Reportable differences exclude any differences in excluded fields and also any differences that are purely caused by pages having different ids in the source and target databases. The array is multidimensional of varying depths with the bottom elements being 2-element arrays containing the differing values.</p>
+
+<p>**Note that it is perfectly possible for there to be a scope change even if there are no differences in the migration definition. For example, if a page selector is used and changes to the source database mean that there is a change in the pages found by the selector.</p>
+
+<p>Use the Tracy console - <em>d($page-&gt;meta('installedStatus'));</em> - to inspect the installed status for any migration page. Call the method exportData() - <em>$page-&gt;exportData('compare');</em> - first to update the meta if required.</p>
+
+<a name='troubleshooting-technical-notes' href='#'></a><h2>Troubleshooting / Technical notes</h2>
+
+<a name='guide-to-the-files' href='#'></a><h4>Guide to the files</h4>
+
+<p>The following files are created:</p>
+
+<ol>
+	<li>Migrations files (template/DbMigrate/migrations) hold all details of migrations in directories named after the migration name. The bootstrap migration is created on installation.</li>
+	<li>Within each migration directory, the following may be found:
+	<ul>
+		<li>a. A ‘new’ directory which holds the exported details of a migration. This contains migration.json (the definition of the scope of the migration, derived from the source migration page), data.json (the definition of all the elements within the scope, derived from the source database) and a 'files' directory containing directories for any files/images associated with migrated pages. To install a migration in a target environment, this ‘new’ directory needs to be copied there (in its parent migration directory).</li>
+		<li>b. An ‘old’ directory (created on installation of a migration in the target environment). This has a similar structure to ‘new’. Note that the migration.json file is a copy of the file that scoped the installation. The data.json file defines the pre-installation state as a ‘reverse migration’ (i.e. it reverses the actions of the data.json file that was used for the installation). The orig-new-data.json file stores a copy of the new/data.json file that was used to install the migration and create this old directory – it is used to check for scope changes. Note that subsequent installations do not change this directory unless the scope of the migration has been changed and the old installation is uninstalled (see c below).</li>
+		<li>c. An archive directory holding previous ‘old’ directories when migrations have changed.</li>
+		<li>d. A ready.php file if the user created it.</li>
+		<li>e. A lock file – lockfile.txt – if the migration is locked.</li>
+	</ul>
+	</li>
+	<li>Temporary files are created in assets/cache/dbMigrate, related to the current (or most recently viewed) migration page:
+	<ul>
+		<li>a. migration.json is the current migration scope</li>
+		<li>b. new-data.json is the current state for comparison with new/data.json and</li>
+		<li>c. old-data.json is the current state for comparison with old/data.json.</li>
+	</ul>
+	</li>
+	<li>Comparison files (template/DbMigrate/comparisons) hold all details of comparisons in directories named after the comparison name. Theses directories have a 'new' directory with a similar structure to migrations.</li>
+</ol>
+
+<a name='issues-with-page-migrations' href='#'></a><h4>Issues with page migrations</h4>
+
+<p>Issues may arise with page migration which are not possible to foresee fully. This is particularly the case if the user migrates pages with multiple complex field types and custom processing. The module was designed for migrating developments, not for mass updating of user pages. It is therefore assumed that any pages being migrated are of a ‘site-settings’ nature, not user pages. That said, it is possible to use the module more generally (e.g. in ‘rescue’ mode) but test carefully first. In particular, the host PW application may make use of page hooks. All page actions in the module allow hooks to run. To enable users to modify this behaviour, session variables are set for the duration of the following methods:</p>
+
+<ul>
+	<li>installPages() – new/changed pages – ‘dbMigrate_installPages’ is set to true</li>
+	<li>removeItems() – all item removals – ‘dbMigrate_removeItems’ is set to true</li>
+</ul>
+
+<p>These can then be referenced in the user's application code as required.</p>
+
+<a name='partial-unsuccessful-migrations' href='#'></a><h4>Partial / Unsuccessful migrations</h4>
+
+<p>In some circumstances, migrations may not complete properly. This will result in error messages when the migration is installed. Some typical examples and possible solutions are set out below. Occasionally, re-clicking 'install' or 'uninstall' may resolve this. Note that you cannot change a migration definition in the target environment, so any changes need to be done in the source environment and re-exported (and installed after uninstalling the previous version).</p>
+
+<p><em>Fields not fully installed</em>: This may be because there are fieldtypes which cannot currently be handled by the module. It could also be caused by dependencies on pages (e.g. for page reference fields) where the pages have not been included in the migration ahead of the field.</p>
+
+<p><em>Templates not fully installed</em>: You may not have included new fields, used by a template, within your migration page scope, ahead of including the template. You will need to go back to the dev system and do this (re-export and re-install)</p>
+
+<p><em>Pages not fully installed</em>: This may be because you have not previously defined new templates or fields used by a page, in which case you will need to go back to the dev system and do this (re-export and re-install). It might also be because certain fieldtypes cannot be sync'd but do not need to be and should be excluded. To exclude field types from the pages scope, go to the module config page. If there are field types that do not sync correctly, but which you do not wish to exclude, then you will need to update the target system manually (the preview should give you the details).</p>
+
+<p><em>Components not removed</em>: This is most likely because you have misnamed the component or because it does not exist in the target database. Double check the naming and go back to the dev system to change as required.</p>
+
+<p>Use the preview button to see what changes have not been fully implemented. You can also inspect and compare the json files to identify the issue (your IDE is probably the best place to do this). For example, compare templates/…/new/data.json (the required state) with assets/cache/dbMigrations/new-data.json (the current state). (Similarly, for uninstallation problems, compare ../old/data.json with assets/cache/dbMigrations/old-data.json).</p>
+
+<a name='field-types' href='#'></a><h4>Field types</h4>
+
+<p>The module handles (I think) the following field types:</p>
+
+<ol>
+	<li>
+	<p>Core fieldtypes. These have not all been tested, but most are straightforward:</p>
+
+	<ul>
+		<li>Select Page has been tested and should work – however there may be problems if a parent page name/path has changed, in which case the migration might need to be split into two successive installations.</li>
+		<li>RTE (Rich text editor) fields are fine, but a complication arises when they include a link to an image (or file), because the link will reference the files directory with the page id in the source environment. The module allows for different page ids in source and target systems.</li>
+	</ul>
+	</li>
+	<li>
+	<p>FieldtypeRepeater. This is more complicated because the field is actually linked to a template and multiple repeater pages.</p>
+
+	<p>When defining a migration, the normal sequence is to define fields before templates which might use them. However, repeater fields are linked to their own templates, so the repeater_fieldName template needs to be included before fieldName.</p>
+	</li>
+	<li>
+	<p>FieldtypePageTable. This has a PageArray so requires special processing .</p>
+	</li>
+	<li>
+	<p>FieldtypeStreetAddress. This is an object and requires special processing analagous to PageTable.</p>
+	</li>
+	<li>
+	<p>Images and files. Similarly to the above, these are more complex fields. Images and files should be migrated along with the page that holds them. Any Rich Text Editor (textarea) fields with embedded images or linked files should migrate satisfactorily <strong>provided</strong> the pages which hold the images/files are included in the migration. If image/file fields use custom fields (defined in the template "field-xxxx" where xxxx is the image/file field name), then it is important that any new or changed field-xxxx template is specified in the migration before the page that uses the related image/file field. if the image/file field itself is unchanged, it does not need to be specified.</p>
+	</li>
+</ol>
+
+<a name='subsequent-installations' href='#'></a><h4>Subsequent installations</h4>
+
+<p>After an initial export from a source and installation in a target, the question arises as to how to deal with revised or additional migrations. If a migration is revised in the source, then it can be installed in the target once the previous version has been uninstalled. New migrations exported from the source are handled in the same way as initial migrations.</p>
+
+<p>However, the user may wish to use a (migrated) test or live database as a new source for subsequent development (assuming the migrations so far are bug-free). In this case, use one (or both) of the following strategies:</p>
+
+<ul>
+	<li>Use database naming (in the module settings page) to rename the imported database back to the name you were using for the development database.</li>
+	<li>Lock the completed migrations (by clicking on the 'lock' icon on the migration page) before importing the database. They will then be there as a record only – the database can be copied to the development environment (after locking) and new migrations can be developed for export, knowing that the base system is in sync (except for user changes to the live system, which will normally only be to pages, not fields or templates).</li>
+</ul>
+
+<p>The use of names for items rather than ids should mean that most user changes will not disrupt future migrations. Installation 'previews' should highlight any difficulties. Overlapping scope detection on migrations only looks at unlocked migrations.</p>
+
+<p>It is also possible, in theory (not advised, but maybe necessary if the development environment is inaccessible) to make changes directly to the live database and 'export' them for installation on the development system. These should be locked after installing them. Database naming is strongly recommended if you use this strategy.</p>
+
+<a name='rescue-mode' href='#'></a><h4>Rescue mode</h4>
+
+<p>An additional use of the module is ‘rescue’ mode. If a number of erroneous changes have occurred to a live database which need to be reverted, then a suitable backup copy can be restored to the development environment (after backing up the dev database!), given a unique name, and the relevant migration exported for installation in the live environment. After successful installation, the development database can be restored to the development environment – the ‘rescue’ migration will then be loaded automatically as a (‘installable’ – i.e. non-editable or exportable) migration and can be installed if it makes sense to do so.</p>
+
+<a name='template-field-flags' href='#'></a><h4>Template/field flags</h4>
+
+<p>Note that all dbMigrate templates and fields are designated as ‘system’ – i.e. the flags is set to 8. This means that they are hidden from the setup dropdown and cannot be used in the front end. To unset the flags it is necessary to first set the override, viz:</p>
+
+<pre>
+$t-&gt;flags = Template::flagSystemOverride;
+$t-&gt;flags = 0;
+$t-&gt;save();</pre></div>
 
 </body>
 </html>
