@@ -367,10 +367,9 @@ $this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
 
 <p>Note that $this-&gt;meta(‘installedStatus’) is an array as follows:</p>
 
-<p>· 'status' =&gt; (string) one of <em>pending</em> (not yet exported or different from exported data), <em>exported</em>, <em>indeterminate</em> (not installed or uninstalled – usually means not yet installed and no ‘old’ files yet exist to provide uninstall data), <em>installed</em>, <em>uninstalled</em>, <em>superseded</em> (locked migration which would otherwise be shown as pending or indeterminate), <em>void</em> (installed and uninstalled),</p>
-
 <ul>
-	<li>'scopeChange' =&gt; <em>true</em> if the proposed migration and old/orig-new-data.json reference different database elements (so the ‘old’ definition would no longer be a suitable basis for an uninstall action)**,</li>
+	<li>'status' =&gt; (string) one of <em>pending</em> (not yet exported or different from exported data), <em>exported</em>, <em>indeterminate</em> (not installed or uninstalled – usually means not yet installed and no ‘old’ files yet exist to provide uninstall data), <em>installed</em>, <em>uninstalled</em>, <em>superseded</em> (locked migration which would otherwise be shown as pending or indeterminate), <em>void</em> (installed and uninstalled),</li>
+	<li>'scopeChange' =&gt; <em>true</em> if the proposed migration and old/orig-new-data.json refer to different database elements (so the ‘old’ definition would no longer be a suitable basis for an uninstall action)**,</li>
 	<li>‘scopeDiffs’ =&gt; the differences between the new and previous migration, where there is a scope change</li>
 	<li>'installed' =&gt; <em>true</em> if installedData and installedMigration are true,</li>
 	<li>'uninstalled' =&gt; <em>true</em> if uninstalledData and uninstalledMigration are true,</li>
