@@ -41,7 +41,7 @@
 </head>
 <body>
 <div class="sidenav">
-	<ul class='uk-nav uk-nav-default'><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#introduction'>Introduction</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#concept'>Concept</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#uses'>Uses</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#design'>Design</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#health-warnings'>Health warnings</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#installation'>Installation</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#dependencies'>&nbsp;&nbsp;Dependencies</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#upgrading'>Upgrading</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#uninstalling'>Uninstalling</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#overview'>Overview</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#usage'>Usage</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#documenting-the-migration'>&nbsp;&nbsp;Documenting the migration</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#snippets'>&nbsp;&nbsp;Snippets</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#populating-the-migration-page'>&nbsp;&nbsp;Populating the migration page</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#exporting-the-migration'>&nbsp;&nbsp;Exporting the migration</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#installing-the-migration'>&nbsp;&nbsp;Installing the migration</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#database-comparisons'>&nbsp;&nbsp;Database comparisons</a></li><li><a href='/processwire/setup/dbmigrations/dbmigrate-help/#creating-a-migration-from-a-comparison'>&nbsp;&nbsp;&nbsp;&nbsp;Creating a migration from a comparison</a></li></ul></div>
+	<ul class='uk-nav uk-nav-default'><li><a href='#introduction'>Introduction</a></li><li><a href='#concept'>Concept</a></li><li><a href='#uses'>Uses</a></li><li><a href='#design'>Design</a></li><li><a href='#health-warnings'>Health warnings</a></li><li><a href='#installation'>Installation</a></li><li><a href='#dependencies'>&nbsp;&nbsp;Dependencies</a></li><li><a href='#upgrading'>Upgrading</a></li><li><a href='#uninstalling'>Uninstalling</a></li><li><a href='#overview'>Overview</a></li><li><a href='#usage'>Usage</a></li><li><a href='#documenting-the-migration'>&nbsp;&nbsp;Documenting the migration</a></li><li><a href='#snippets'>&nbsp;&nbsp;Snippets</a></li><li><a href='#populating-the-migration-page'>&nbsp;&nbsp;Populating the migration page</a></li><li><a href='#exporting-the-migration'>&nbsp;&nbsp;Exporting the migration</a></li><li><a href='#installing-the-migration'>&nbsp;&nbsp;Installing the migration</a></li><li><a href='#database-comparisons'>&nbsp;&nbsp;Database comparisons</a></li><li><a href='#creating-a-migration-from-a-comparison'>&nbsp;&nbsp;&nbsp;&nbsp;Creating a migration from a comparison</a></li></ul></div>
 <div class="main" edit="dbMigrateAdditionalDetails">
 <h1>DB Migrations module</h1>
 
@@ -161,7 +161,7 @@
 
 <p>The pic below illustrates the DB Migrations page in the 'source' environment.</p>
 
-<p><img alt="DB Migrations page in the 'source' environment" src="/site-admin/modules/ProcessDbMigrate/help/Setup_page_source_v3.jpg" /></p>
+<p><img alt="DB Migrations page in the 'source' environment" src="help/Setup_page_source_v3.jpg" /></p>
 
 <p>The status of a migration (as a source page) can be 'pending' or 'exported'. 'Pending' means either that the migration data have not yet been exported or that the current export files differ from the source database.</p>
 
@@ -173,7 +173,7 @@
 
 <p>The pic below illustrates the Database Migrations page in the target environment.</p>
 
-<p><img alt="DB Migrations page in the 'target' environment" src="/site-admin/modules/ProcessDbMigrate/help/Setup_page_target_v3.jpg" /></p>
+<p><img alt="DB Migrations page in the 'target' environment" src="help/Setup_page_target_v3.jpg" /></p>
 
 <p>In a target environment, a migration status can usually be 'indeterminate', 'installed' or 'uninstalled'. 'Indeterminate' means either that the migration has not yet been installed (so no 'old' files containing the uninstall definition exist yet) or that the current state matches neither the 'new' or the 'old' state. 'Installed' means that the current state matches the 'new' definition and 'uninstalled' means that it matches the 'old' definition (i.e. it has been actively uninstalled rather than not yet installed). There is also a 'void' status which indicates that the migration achieves nothing.</p>
 
@@ -208,7 +208,7 @@
 
 <p>See example below:</p>
 
-<p><img alt="Migration_page_source_full_v4.jpg" src="/site-admin/modules/ProcessDbMigrate/help/Migration_page_source_full_v4.jpg" /></p>
+<p><img alt="Migration_page_source_full_v4.jpg" src="help/Migration_page_source_full_v4.jpg" /></p>
 
 <p>On your migration page, enter the names of new and changed fields and templates, and enter the paths of pages (as /path/to/pagename/). Selectors may be used instead of paths or names (see box below). Note that entry of names and paths is in text fields, not using dropdowns, as names, paths and ids may be different in the source and target systems – there is limited real-time checking of these. If an item has a different name in the target database then provide it in the 'old name' box, otherwise leave that blank.</p>
 
@@ -255,11 +255,11 @@
 
 <p>Go to the migration page. Before installing, you can use the "preview" button to see what changes will be implemented. If you are happy, click "Install". This should result in various messages and maybe some errors, if the migration was not able to complete fully (see section below for how to deal with partial migrations). See example of the migration page in 'installation' mode below:</p>
 
-<p><img alt="Migration_page_target.jpg" src="/site-admin/modules/ProcessDbMigrate/help/Migration_page_target.jpg" /></p>
+<p><img alt="Migration_page_target.jpg" src="help/Migration_page_target.jpg" /></p>
 
 <p>and an example preview:</p>
 
-<p><img alt="Preview_differences_selector.jpg" src="/site-admin/modules/ProcessDbMigrate/help/Preview_differences_selector.jpg" /></p>
+<p><img alt="Preview_differences_selector.jpg" src="help/Preview_differences_selector.jpg" /></p>
 
 <p>Note that you will now have the following files:</p>
 
@@ -278,7 +278,7 @@
 
 <p>On the Database Migrations page, select the “Add New DbComparison” button. On the DbComparison page you can add a summary and a number of ‘comparison items’. Note that comparison items just comprise an object type (field/template/page) and a name/selector. These items define the scope of the comparison. In theory, you can compare entire databases by using a selector “id&gt;0” for each of pages, fields and templates. However, this is likely to be quite resource-hungry if the database is large, so it is better to use a scope that is more selective. In any case, you will probably want to exclude migration and database comparisons from the scope, together with the related repeater pages, otherwise it can be a bit self-referential (but shouldn’t crash). The example below compares all templates and fields (but not pages):</p>
 
-<p><img alt="Comparison - source" src="/site-admin/modules/ProcessDbMigrate/help/Comparison_source.jpg" /></p>
+<p><img alt="Comparison - source" src="help/Comparison_source.jpg" /></p>
 
 <p>After saving the page, click ‘export data’ (or preview first) and sync the templates/DbMigrate/Comparison/{name}/ directory to your target environment. Then go to the target database and open the comparison page (you may need to refresh the comparisons summary page first). Here you will see two ‘migrate actions’:</p>
 
