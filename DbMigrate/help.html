@@ -48,13 +48,27 @@
 </head>
 <body>
 <div class="sidenav">
-	<ul class='uk-nav uk-nav-default'><li><a style='padding-left: 0px' href='#introduction'>Introduction</a></li><li><a style='padding-left: 0px' href='#concept'>Concept</a></li><li><a style='padding-left: 0px' href='#uses'>Uses</a></li><li><a style='padding-left: 0px' href='#design'>Design</a></li><li><a style='padding-left: 0px' href='#health-warnings'>Health warnings</a></li><li><a style='padding-left: 0px' href='#installation'>Installation</a></li><li><a style='padding-left: 10px' href='#dependencies'>Dependencies</a></li><li><a style='padding-left: 0px' href='#upgrading'>Upgrading</a></li><li><a style='padding-left: 0px' href='#uninstalling'>Uninstalling</a></li><li><a style='padding-left: 0px' href='#overview'>Overview</a></li><li><a style='padding-left: 0px' href='#using-the-module'>Using the module</a></li><li><a style='padding-left: 10px' href='#documenting-the-migration'>Documenting the migration</a></li><li><a style='padding-left: 10px' href='#snippets'>Snippets</a></li><li><a style='padding-left: 10px' href='#populating-the-migration-page'>Populating the migration page</a></li><li><a style='padding-left: 10px' href='#exporting-the-migration'>Exporting the migration</a></li><li><a style='padding-left: 10px' href='#installing-the-migration'>Installing the migration</a></li><li><a style='padding-left: 10px' href='#database-comparisons'>Database comparisons</a></li><li><a style='padding-left: 20px' href='#creating-a-migration-from-a-comparison'>Creating a migration from a comparison</a></li><li><a style='padding-left: 10px' href='#hooks'>Hooks</a></li><li><a style='padding-left: 20px' href='#available-hooks'>Available hooks</a></li><li><a style='padding-left: 20px' href='#placement'>Placement</a></li><li><a style='padding-left: 20px' href='#usage'>Usage</a></li><li><a style='padding-left: 0px' href='#troubleshooting-technical-notes'>Troubleshooting / Technical notes</a></li><li><a style='padding-left: 10px' href='#guide-to-the-files'>Guide to the files</a></li><li><a style='padding-left: 10px' href='#issues-with-page-migrations'>Issues with page migrations</a></li><li><a style='padding-left: 10px' href='#partial-unsuccessful-migrations'>Partial / Unsuccessful migrations</a></li><li><a style='padding-left: 10px' href='#field-types'>Field types</a></li><li><a style='padding-left: 10px' href='#subsequent-installations'>Subsequent installations</a></li><li><a style='padding-left: 10px' href='#rescue-mode'>Rescue mode</a></li><li><a style='padding-left: 10px' href='#template-field-flags'>Template/field flags</a></li></ul></div>
+	<ul class='uk-nav uk-nav-default'><li><a style='padding-left: 0px' href='#summary'>Summary</a></li><li><a style='padding-left: 0px' href='#background'>Background</a></li><li><a style='padding-left: 0px' href='#concept'>Concept</a></li><li><a style='padding-left: 0px' href='#uses'>Uses</a></li><li><a style='padding-left: 0px' href='#design'>Design</a></li><li><a style='padding-left: 0px' href='#health-warnings'>Health warnings</a></li><li><a style='padding-left: 0px' href='#installation'>Installation</a></li><li><a style='padding-left: 10px' href='#dependencies'>Dependencies</a></li><li><a style='padding-left: 0px' href='#upgrading'>Upgrading</a></li><li><a style='padding-left: 0px' href='#uninstalling'>Uninstalling</a></li><li><a style='padding-left: 0px' href='#overview'>Overview</a></li><li><a style='padding-left: 0px' href='#using-the-module'>Using the module</a></li><li><a style='padding-left: 10px' href='#documenting-the-migration'>Documenting the migration</a></li><li><a style='padding-left: 10px' href='#snippets'>Snippets</a></li><li><a style='padding-left: 10px' href='#populating-the-migration-page'>Populating the migration page</a></li><li><a style='padding-left: 10px' href='#exporting-the-migration'>Exporting the migration</a></li><li><a style='padding-left: 10px' href='#installing-the-migration'>Installing the migration</a></li><li><a style='padding-left: 10px' href='#database-comparisons'>Database comparisons</a></li><li><a style='padding-left: 20px' href='#creating-a-migration-from-a-comparison'>Creating a migration from a comparison</a></li><li><a style='padding-left: 10px' href='#hooks'>Hooks</a></li><li><a style='padding-left: 20px' href='#available-hooks'>Available hooks</a></li><li><a style='padding-left: 20px' href='#placement'>Placement</a></li><li><a style='padding-left: 20px' href='#usage'>Usage</a></li><li><a style='padding-left: 0px' href='#troubleshooting-technical-notes'>Troubleshooting / Technical notes</a></li><li><a style='padding-left: 10px' href='#guide-to-the-files'>Guide to the files</a></li><li><a style='padding-left: 10px' href='#issues-with-page-migrations'>Issues with page migrations</a></li><li><a style='padding-left: 10px' href='#partial-unsuccessful-migrations'>Partial / Unsuccessful migrations</a></li><li><a style='padding-left: 10px' href='#field-types'>Field types</a></li><li><a style='padding-left: 10px' href='#subsequent-installations'>Subsequent installations</a></li><li><a style='padding-left: 10px' href='#rescue-mode'>Rescue mode</a></li><li><a style='padding-left: 10px' href='#template-field-flags'>Template/field flags</a></li></ul></div>
 <div class="main" edit="dbMigrateAdditionalDetails">
-<h1>DB Migrations module</h1>
+<h1>DB Migrations module - "ProcessDbMigrate"</h1>
 
-<a name='introduction'  href='#'></a><h2>Introduction</h2>
+<a name='summary'  href='#'></a><h2>Summary</h2>
 
-<p>ProcessWire is an outstanding content management system/framework owing to its flexibility, ease of use and outstanding API. However, it suffers from a common problem in database-oriented CMSs in that business logic may be explicitly or implicitly stored in the database rather than in code. This is particularly the case where it is used for a full-blooded app rather than just a simple CMS for a website. This is a shame because it is such a brilliant app-building tool.</p>
+<p>This is a ProcessWire module to enable database changes in a development environment to be migrated to a test or live environment, without the need for any coding, and for all such migrations to be fully documented and capable of reversal.</p>
+
+<p>TLDR:</p>
+
+<ul>
+	<li>Install the module in each database environment and enter the settings - give the databases different and meaningful names reflecting their environment</li>
+	<li>Make your database changes in the development environment</li>
+	<li>Specify your migration in the source database and “export” it</li>
+	<li>Sync your (test or live) code environment to the development environment</li>
+	<li>Install the migration in your target environment</li>
+</ul>
+
+<a name='background'  href='#'></a><h2>Background</h2>
+
+<p>ProcessWire is an outstanding content management system/framework owing to its flexibility, ease of use and extensive API. However, it suffers from a common problem in database-oriented CMSs in that business logic may be explicitly or implicitly stored in the database rather than in code. This is particularly the case where it is used for a full-blooded app rather than just a simple CMS for a website. This is a shame because it is such a brilliant app-building tool.</p>
 
 <p>The problem arises where the developer wishes to develop and test new or changed features in a development/test environment and then port those to the live environment. If the business logic is purely in the code and there are no database changes, then no issue arises, but if the changes involve database changes then typically the solution might be to test them, then replicate them manually (and hopefully accurately) in the live system. For large changes, this can be time-consuming and possibly error-prone. If a test environment is used as well as a development and live environment, then the problem is doubled.</p>
 
@@ -187,15 +201,6 @@
 <p><strong>Note</strong> : If you can't remember whether you are working in a source or target environment (important! - you don't want to make developments in a test environment and then lose them!), make sure all databases have names in the module config and select “Show database name in notice”.</p>
 
 <a name='using-the-module'  href='#'></a><h2>Using the module</h2>
-
-<p>TLDR:</p>
-
-<ul>
-	<li>Install the module in each database environment and enter the settings - give the databases different and meaningful names</li>
-	<li>Specify your migration in the source database and “export” it</li>
-	<li>Sync your code environments</li>
-	<li>Install the migration in your target environment</li>
-</ul>
 
 <a name='documenting-the-migration'  href='#'></a><h3>Documenting the migration</h3>
 
