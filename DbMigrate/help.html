@@ -479,6 +479,8 @@ $this-&gt;addHookAfter('ProcessDbMigrate::installMigration', function ($event) {
 	</li>
 </ol>
 
+<p>ProFields have not been tested, so may or may not work.</p>
+
 <a name='subsequent-installations'  href='#'></a><h3>Subsequent installations</h3>
 
 <p>After an initial export from a source and installation in a target, the question arises as to how to deal with revised or additional migrations. If a migration is revised in the source, then it can be installed in the target once the previous version has been uninstalled. New migrations exported from the source are handled in the same way as initial migrations.</p>
